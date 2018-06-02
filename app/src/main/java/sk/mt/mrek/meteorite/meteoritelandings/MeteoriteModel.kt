@@ -2,7 +2,7 @@ package sk.mt.mrek.meteorite.meteoritelandings
 
 import java.util.*
 
-object Model {
+object MeteoriteModel {
     data class MeteoriteLanding(
             val name: String,
             val id: Long,
@@ -11,8 +11,7 @@ object Model {
             val mass: Double,
             val fall: String,
             val year: Date,
-            val coordinates: Coordinates
+            val reclat: Double,
+            val reclong: Double
     )
-
-    data class Coordinates(val latitude: Double, val longitude: Double)
 }
