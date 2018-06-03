@@ -7,11 +7,15 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
+import com.vicpin.krealmextensions.queryAll
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
+import sk.mt.mrek.meteorite.meteoritelandings.model.Meteorite
 
 /**
  * @author Marek Sabo
@@ -24,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val nasaApiService by lazy { NasaApiService.create() }
+
     private var disposable: Disposable? = null
     private lateinit var meteoriteAdapter: MeteoriteAdapter
 
@@ -31,10 +36,23 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        meteoriteAdapter = MeteoriteAdapter(emptyList())
+        val storedMeteorites = Meteorite().queryAll()
+        meteoritesAmountValue.text = "${storedMeteorites.size}"
+
+        setAdapter(storedMeteorites)
+    }
+
+    private fun setAdapter(storedMeteorites: List<Meteorite>) {
+        meteoriteAdapter = MeteoriteAdapter(storedMeteorites)
         meteoritesView.layoutManager = LinearLayoutManager(this)
         meteoritesView.adapter = meteoriteAdapter
         setDecorator(meteoritesView)
+    }
+
+    private fun setDecorator(recyclerView: RecyclerView) {
+        val itemDecorator = DividerItemDecoration(this, LinearLayoutManager.VERTICAL)
+        itemDecorator.setDrawable(ContextCompat.getDrawable(this, R.drawable.accent_divider)!!)
+        recyclerView.addItemDecoration(itemDecorator)
     }
 
     override fun onResume() {
@@ -45,12 +63,6 @@ class MainActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         disposable?.dispose()
-    }
-
-    private fun setDecorator(recyclerView: RecyclerView) {
-        val itemDecorator = DividerItemDecoration(this, LinearLayoutManager.VERTICAL)
-        itemDecorator.setDrawable(ContextCompat.getDrawable(this, R.drawable.accent_divider)!!)
-        recyclerView.addItemDecoration(itemDecorator)
     }
 
     private fun loadData() {
@@ -64,9 +76,21 @@ class MainActivity : AppCompatActivity() {
                 .subscribe(this::handleResponse, this::handleError)
     }
 
-    private fun handleResponse(meteorites: List<Model.MeteoriteLanding>) {
+    private fun handleResponse(meteorites: List<Meteorite>) {
         meteoritesAmountValue.text = "${meteorites.size}"
         meteoriteAdapter.addMissingItems(meteorites)
+
+        updateRealmDb(meteorites)
+    }
+
+    private fun updateRealmDb(meteorites: List<Meteorite>) {
+        doAsync {
+            Realm.getDefaultInstance().use { realm ->
+                realm.beginTransaction()
+                realm.insertOrUpdate(meteorites)
+                realm.commitTransaction()
+            }
+        }
     }
 
     private fun handleError(throwable: Throwable) {

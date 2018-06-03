@@ -1,4 +1,4 @@
-package sk.mt.mrek.meteorite.meteoritelandings
+package sk.mt.mrek.meteorite.meteoritelandings.util
 
 import android.support.annotation.LayoutRes
 import android.view.LayoutInflater

@@ -8,12 +8,15 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import sk.mt.mrek.meteorite.meteoritelandings.Constant.PICKED_METEORITE
+import com.google.gson.Gson
+import sk.mt.mrek.meteorite.meteoritelandings.model.Meteorite
+import sk.mt.mrek.meteorite.meteoritelandings.util.Constant.PICKED_METEORITE
+import sk.mt.mrek.meteorite.meteoritelandings.util.toSimpleString
 
 class MeteoriteMapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var map: GoogleMap
-    private lateinit var meteorite: Model.MeteoriteLanding
+    private lateinit var meteorite: Meteorite
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +26,8 @@ class MeteoriteMapActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        meteorite = intent.getSerializableExtra(PICKED_METEORITE) as Model.MeteoriteLanding
+        val stringExtra = intent.getStringExtra(PICKED_METEORITE)
+        meteorite = Gson().fromJson<Meteorite>(stringExtra, Meteorite::class.java)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

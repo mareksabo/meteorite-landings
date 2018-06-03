@@ -5,4 +5,5 @@
     <string name="meteorite_name">Meteorite name</string>
     <string name="weight">Weight in grams</string>
     <string name="title_activity_meteorite_map">Map</string>
+    <string name="no_data_available">No data available</string>
 </resources>

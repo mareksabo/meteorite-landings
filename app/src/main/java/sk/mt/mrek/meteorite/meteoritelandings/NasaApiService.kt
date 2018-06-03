@@ -10,6 +10,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
+import sk.mt.mrek.meteorite.meteoritelandings.model.Meteorite
 
 /**
  * @author Marek Sabo
@@ -20,7 +21,7 @@ interface NasaApiService {
     fun retrieveLandedMeteorites(@Query("\$\$app_token") appToken: String,
                                  @Query("\$where") where: String,
                                  @Query("\$order") order: String)
-            : Single<List<Model.MeteoriteLanding>>
+            : Single<List<Meteorite>>
 
     companion object {
 
@@ -44,7 +45,7 @@ interface NasaApiService {
 
         private fun createHttpClient(): OkHttpClient {
             val interceptor = HttpLoggingInterceptor()
-            interceptor.level = HttpLoggingInterceptor.Level.BODY
+            interceptor.level = HttpLoggingInterceptor.Level.BASIC
             return OkHttpClient.Builder()
                     .addInterceptor(interceptor)
                     .build()
