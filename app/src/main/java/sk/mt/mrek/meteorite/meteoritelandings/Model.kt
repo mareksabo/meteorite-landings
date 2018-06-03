@@ -1,5 +1,6 @@
 package sk.mt.mrek.meteorite.meteoritelandings
 
+import java.io.Serializable
 import java.util.*
 
 /**
@@ -16,5 +17,5 @@ object Model {
             val year: Date,
             val reclat: Double,
             val reclong: Double
-    )
+    ) : Serializable
 }

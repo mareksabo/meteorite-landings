@@ -1,5 +1,5 @@
-# hide csv tables
-/app/src/main/assets/
+# hide google api key
+google_maps_api.xml
 
 # Sensitive keys
 keystore.properties

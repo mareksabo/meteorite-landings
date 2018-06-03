@@ -5,7 +5,8 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.column_meteorite.view.*
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.startActivity
+import sk.mt.mrek.meteorite.meteoritelandings.Constant.PICKED_METEORITE
 
 
 /**
@@ -50,14 +51,13 @@ class MeteoriteAdapter(_meteorites: List<Model.MeteoriteLanding>) :
         }
 
         override fun onClick(v: View?) {
-            itemView.context.toast("Meteorite ${meteorite?.name} clicked")
+            itemView.context.startActivity<MeteoriteMapActivity>(PICKED_METEORITE to meteorite)
         }
-
 
         fun bindConcept(meteorite: Model.MeteoriteLanding) {
             this.meteorite = meteorite
             v.meteoriteName.text = meteorite.name
-            v.meteoriteWeight.text = "${meteorite.mass.format(2)}" // No i18n needed
+            v.meteoriteWeight.text = meteorite.mass.format(2) // No i18n needed yet
         }
     }
 
