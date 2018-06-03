@@ -2,7 +2,10 @@ package sk.mt.mrek.meteorite.meteoritelandings
 
 import java.util.*
 
-object MeteoriteModel {
+/**
+ * @author Marek Sabo
+ */
+object Model {
     data class MeteoriteLanding(
             val name: String,
             val id: Long,

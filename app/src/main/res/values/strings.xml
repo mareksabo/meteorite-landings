@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Meteorite Landings</string>
+    <string name="meteorites_amount">Meteorites amount:</string>
+    <string name="zero">0</string>
+    <string name="meteorite_name">Meteorite name</string>
+    <string name="weight">Weight in grams</string>
 </resources>

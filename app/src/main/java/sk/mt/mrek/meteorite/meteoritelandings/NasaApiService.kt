@@ -1,6 +1,8 @@
 package sk.mt.mrek.meteorite.meteoritelandings
 
-import io.reactivex.Observable
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import io.reactivex.Single
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -8,18 +10,17 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
-import com.google.gson.GsonBuilder
-import com.google.gson.Gson
-import io.reactivex.Single
 
-
+/**
+ * @author Marek Sabo
+ */
 interface NasaApiService {
 
     @GET("y77d-th95.json")
     fun retrieveLandedMeteorites(@Query("\$\$app_token") appToken: String,
                                  @Query("\$where") where: String,
                                  @Query("\$order") order: String)
-            : Single<List<MeteoriteModel.MeteoriteLanding>>
+            : Single<List<Model.MeteoriteLanding>>
 
     companion object {
 
