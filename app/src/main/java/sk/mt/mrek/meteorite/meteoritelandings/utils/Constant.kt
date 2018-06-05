@@ -1,4 +1,4 @@
-package sk.mt.mrek.meteorite.meteoritelandings.util
+package sk.mt.mrek.meteorite.meteoritelandings.utils
 
 /**
  * @author Marek Sabo

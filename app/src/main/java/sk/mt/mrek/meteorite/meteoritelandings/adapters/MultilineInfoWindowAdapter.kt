@@ -1,4 +1,4 @@
-package sk.mt.mrek.meteorite.meteoritelandings
+package sk.mt.mrek.meteorite.meteoritelandings.adapters
 
 import android.content.Context
 import android.graphics.Color

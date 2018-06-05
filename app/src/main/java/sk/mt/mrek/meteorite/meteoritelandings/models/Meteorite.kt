@@ -1,4 +1,4 @@
-package sk.mt.mrek.meteorite.meteoritelandings.model
+package sk.mt.mrek.meteorite.meteoritelandings.models
 
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey

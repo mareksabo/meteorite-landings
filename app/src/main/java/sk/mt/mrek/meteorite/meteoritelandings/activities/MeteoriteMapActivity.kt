@@ -1,4 +1,4 @@
-package sk.mt.mrek.meteorite.meteoritelandings
+package sk.mt.mrek.meteorite.meteoritelandings.activities
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -9,9 +9,11 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.gson.Gson
-import sk.mt.mrek.meteorite.meteoritelandings.model.Meteorite
-import sk.mt.mrek.meteorite.meteoritelandings.util.Constant.PICKED_METEORITE
-import sk.mt.mrek.meteorite.meteoritelandings.util.toSimpleString
+import sk.mt.mrek.meteorite.meteoritelandings.adapters.MultilineInfoWindowAdapter
+import sk.mt.mrek.meteorite.meteoritelandings.R
+import sk.mt.mrek.meteorite.meteoritelandings.models.Meteorite
+import sk.mt.mrek.meteorite.meteoritelandings.utils.Constant.PICKED_METEORITE
+import sk.mt.mrek.meteorite.meteoritelandings.utils.toSimpleString
 
 class MeteoriteMapActivity : AppCompatActivity(), OnMapReadyCallback {
 

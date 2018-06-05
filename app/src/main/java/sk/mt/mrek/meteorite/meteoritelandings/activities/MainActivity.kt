@@ -1,4 +1,4 @@
-package sk.mt.mrek.meteorite.meteoritelandings
+package sk.mt.mrek.meteorite.meteoritelandings.activities
 
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -11,12 +11,12 @@ import com.vicpin.krealmextensions.queryAll
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 import io.realm.Realm
-import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.longToast
-import org.jetbrains.anko.toast
 import sk.mt.mrek.meteorite.meteoritelandings.DataIO.loadData
+import sk.mt.mrek.meteorite.meteoritelandings.adapters.MeteoriteAdapter
+import sk.mt.mrek.meteorite.meteoritelandings.R
 import sk.mt.mrek.meteorite.meteoritelandings.async.UpdateDataJob
-import sk.mt.mrek.meteorite.meteoritelandings.model.Meteorite
+import sk.mt.mrek.meteorite.meteoritelandings.models.Meteorite
 
 /**
  * @author Marek Sabo

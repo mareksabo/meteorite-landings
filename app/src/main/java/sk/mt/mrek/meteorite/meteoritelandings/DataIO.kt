@@ -6,7 +6,8 @@ import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import io.realm.Realm
 import org.jetbrains.anko.doAsync
-import sk.mt.mrek.meteorite.meteoritelandings.model.Meteorite
+import sk.mt.mrek.meteorite.meteoritelandings.models.Meteorite
+import sk.mt.mrek.meteorite.meteoritelandings.network.NasaApiService
 
 /**
  * Loads and stores the data about meteorites.

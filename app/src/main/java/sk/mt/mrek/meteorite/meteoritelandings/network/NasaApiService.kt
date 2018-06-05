@@ -1,4 +1,4 @@
-package sk.mt.mrek.meteorite.meteoritelandings
+package sk.mt.mrek.meteorite.meteoritelandings.network
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -10,7 +10,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
-import sk.mt.mrek.meteorite.meteoritelandings.model.Meteorite
+import sk.mt.mrek.meteorite.meteoritelandings.models.Meteorite
 
 /**
  * @author Marek Sabo

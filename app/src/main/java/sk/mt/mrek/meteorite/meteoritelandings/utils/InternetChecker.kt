@@ -1,4 +1,4 @@
-package sk.mt.mrek.meteorite.meteoritelandings.util
+package sk.mt.mrek.meteorite.meteoritelandings.utils
 
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers

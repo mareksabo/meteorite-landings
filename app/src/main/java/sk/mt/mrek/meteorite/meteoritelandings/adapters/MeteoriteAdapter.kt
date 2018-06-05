@@ -1,17 +1,17 @@
-package sk.mt.mrek.meteorite.meteoritelandings
+package sk.mt.mrek.meteorite.meteoritelandings.adapters
 
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.column_meteorite.view.*
-import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
-import sk.mt.mrek.meteorite.meteoritelandings.model.Meteorite
-import sk.mt.mrek.meteorite.meteoritelandings.util.Constant.PICKED_METEORITE
-import sk.mt.mrek.meteorite.meteoritelandings.util.format
-import sk.mt.mrek.meteorite.meteoritelandings.util.inflate
+import sk.mt.mrek.meteorite.meteoritelandings.R
+import sk.mt.mrek.meteorite.meteoritelandings.activities.MeteoriteMapActivity
+import sk.mt.mrek.meteorite.meteoritelandings.models.Meteorite
+import sk.mt.mrek.meteorite.meteoritelandings.utils.Constant.PICKED_METEORITE
+import sk.mt.mrek.meteorite.meteoritelandings.utils.format
+import sk.mt.mrek.meteorite.meteoritelandings.utils.inflate
 
 
 /**
