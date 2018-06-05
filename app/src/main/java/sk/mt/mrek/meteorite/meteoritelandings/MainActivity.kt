@@ -8,13 +8,14 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import com.vicpin.krealmextensions.queryAll
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.functions.Consumer
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.longToast
 import org.jetbrains.anko.toast
+import sk.mt.mrek.meteorite.meteoritelandings.DataIO.loadData
+import sk.mt.mrek.meteorite.meteoritelandings.async.UpdateDataJob
 import sk.mt.mrek.meteorite.meteoritelandings.model.Meteorite
 
 /**
@@ -27,8 +28,6 @@ class MainActivity : AppCompatActivity() {
         val TAG: String = MainActivity::class.java.simpleName
     }
 
-    private val nasaApiService by lazy { NasaApiService.create() }
-
     private var disposable: Disposable? = null
     private lateinit var meteoriteAdapter: MeteoriteAdapter
 
@@ -39,10 +38,11 @@ class MainActivity : AppCompatActivity() {
         val storedMeteorites = Meteorite().queryAll()
         meteoritesAmountValue.text = "${storedMeteorites.size}"
 
-        setAdapter(storedMeteorites)
+        setupView(storedMeteorites)
+        UpdateDataJob.scheduleJob()
     }
 
-    private fun setAdapter(storedMeteorites: List<Meteorite>) {
+    private fun setupView(storedMeteorites: List<Meteorite>) {
         meteoriteAdapter = MeteoriteAdapter(storedMeteorites)
         meteoritesView.layoutManager = LinearLayoutManager(this)
         meteoritesView.adapter = meteoriteAdapter
@@ -55,49 +55,27 @@ class MainActivity : AppCompatActivity() {
         recyclerView.addItemDecoration(itemDecorator)
     }
 
+    private fun consumerResponse(): Consumer<List<Meteorite>> = Consumer {
+        meteoritesAmountValue.text = "${it.size}"
+        Log.d(TAG, "Data loaded successfully")
+        meteoriteAdapter.addMissingItems(it)
+    }
+
+    private fun consumerError(): Consumer<Throwable> = Consumer {
+        it.localizedMessage?.let { Log.i(TAG, it) }
+        longToast("Meteorites data could not be loaded")
+    }
+
     override fun onResume() {
         super.onResume()
-        loadData()
+        if (Realm.getDefaultInstance().isEmpty) {
+            disposable = loadData(consumerResponse(), consumerError())
+        }
     }
 
     override fun onPause() {
         super.onPause()
         disposable?.dispose()
-    }
-
-    private fun loadData() {
-        disposable = nasaApiService
-                .retrieveLandedMeteorites(
-                        "yyhmUSd5r6OVuZK3GBZSyfSal",
-                        "year >= '2011-01-01T00:00:00'",
-                        "mass DESC")
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(this::handleResponse, this::handleError)
-    }
-
-    private fun handleResponse(meteorites: List<Meteorite>) {
-        meteoritesAmountValue.text = "${meteorites.size}"
-        meteoriteAdapter.addMissingItems(meteorites)
-
-        updateRealmDb(meteorites)
-    }
-
-    private fun updateRealmDb(meteorites: List<Meteorite>) {
-        doAsync {
-            Realm.getDefaultInstance().use { realm ->
-                realm.beginTransaction()
-                realm.insertOrUpdate(meteorites)
-                realm.commitTransaction()
-            }
-        }
-    }
-
-    private fun handleError(throwable: Throwable) {
-        throwable.localizedMessage?.let {
-            Log.i(TAG, it)
-            toast(it)
-        }
     }
 
 }
