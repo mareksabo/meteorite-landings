@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.column_meteorite.view.*
 import org.jetbrains.anko.startActivity
 import sk.mt.mrek.meteorite.meteoritelandings.R
 import sk.mt.mrek.meteorite.meteoritelandings.activities.MeteoriteMapActivity
@@ -25,7 +26,7 @@ class MeteoriteAdapter(_meteorites: List<Meteorite>) :
         val TAG: String = MeteoriteAdapter::class.java.simpleName
     }
 
-    private val meteorites: MutableList<Meteorite> = _meteorites.toMutableList()
+    private var meteorites: List<Meteorite> = _meteorites
 
     override fun getItemCount() = meteorites.size
 
@@ -35,18 +36,10 @@ class MeteoriteAdapter(_meteorites: List<Meteorite>) :
     override fun onBindViewHolder(holder: ConceptHolder, position: Int) =
             holder.bindConcept(meteorites[position])
 
-    fun addMissingItems(otherMeteorites: List<Meteorite>) {
-        val amountChanged = addMissingItemsToList(otherMeteorites)
-        Log.i(TAG, "amountChanged: $amountChanged")
-        if (amountChanged > 0) notifyDataSetChanged()
-    }
-
-    private fun addMissingItemsToList(otherMeteorites: List<Meteorite>): Int {
-        val newMeteorites = otherMeteorites.toMutableList()
-        newMeteorites.removeAll(meteorites)
-        val oldAmount = meteorites.size
-        meteorites.addAll(newMeteorites)
-        return meteorites.size - oldAmount
+    fun loadItems(otherMeteorites: List<Meteorite>) {
+        meteorites = otherMeteorites
+        Log.i(TAG, "current meteorites amount: ${meteorites.size}")
+        notifyDataSetChanged()
     }
 
     class ConceptHolder(private var v: View) : RecyclerView.ViewHolder(v), View.OnClickListener {

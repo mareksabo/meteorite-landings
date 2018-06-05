@@ -26,7 +26,7 @@ class UpdateDataJob: Job() {
             if (!jobRequests.isEmpty()) return
 
             JobRequest.Builder(TAG)
-                    .setPeriodic(TimeUnit.MINUTES.toMillis(15))
+                    .setPeriodic(TimeUnit.DAYS.toMillis(1))
                     .setUpdateCurrent(true)
                     .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
                     .setRequirementsEnforced(true)

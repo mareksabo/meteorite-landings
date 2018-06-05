@@ -15,6 +15,9 @@ import sk.mt.mrek.meteorite.meteoritelandings.models.Meteorite
 import sk.mt.mrek.meteorite.meteoritelandings.utils.Constant.PICKED_METEORITE
 import sk.mt.mrek.meteorite.meteoritelandings.utils.toSimpleString
 
+/**
+ * @author Marek Sabo
+ */
 class MeteoriteMapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var map: GoogleMap
@@ -24,7 +27,6 @@ class MeteoriteMapActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_meteorite_map)
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 

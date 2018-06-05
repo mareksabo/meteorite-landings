@@ -7,10 +7,12 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
-import com.vicpin.krealmextensions.queryAll
+import com.vicpin.krealmextensions.querySorted
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 import io.realm.Realm
+import io.realm.Sort
+import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.longToast
 import sk.mt.mrek.meteorite.meteoritelandings.DataIO.loadData
 import sk.mt.mrek.meteorite.meteoritelandings.adapters.MeteoriteAdapter
@@ -35,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val storedMeteorites = Meteorite().queryAll()
+        val storedMeteorites = Meteorite().querySorted("mass", Sort.DESCENDING)
         meteoritesAmountValue.text = "${storedMeteorites.size}"
 
         setupView(storedMeteorites)
@@ -58,7 +60,7 @@ class MainActivity : AppCompatActivity() {
     private fun consumerResponse(): Consumer<List<Meteorite>> = Consumer {
         meteoritesAmountValue.text = "${it.size}"
         Log.d(TAG, "Data loaded successfully")
-        meteoriteAdapter.addMissingItems(it)
+        meteoriteAdapter.loadItems(it)
     }
 
     private fun consumerError(): Consumer<Throwable> = Consumer {
@@ -66,8 +68,8 @@ class MainActivity : AppCompatActivity() {
         longToast("Meteorites data could not be loaded")
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
         if (Realm.getDefaultInstance().isEmpty) {
             disposable = loadData(consumerResponse(), consumerError())
         }

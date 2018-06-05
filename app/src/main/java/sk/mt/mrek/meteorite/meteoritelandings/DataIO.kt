@@ -10,7 +10,7 @@ import sk.mt.mrek.meteorite.meteoritelandings.models.Meteorite
 import sk.mt.mrek.meteorite.meteoritelandings.network.NasaApiService
 
 /**
- * Loads and stores the data about meteorites.
+ * Loads and stores the data about the meteorites.
  *
  * @author Marek Sabo
  */
@@ -22,7 +22,7 @@ object DataIO {
         return nasaApiService
                 .retrieveLandedMeteorites(
                         "yyhmUSd5r6OVuZK3GBZSyfSal",
-                        "year >= '1011-01-01T00:00:00'",
+                        "year >= '2011-01-01T00:00:00'",
                         "mass DESC")
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
